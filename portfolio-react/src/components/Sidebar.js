@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User, Code, Briefcase, Mail, Home, Github, Linkedin, Instagram } from 'lucide-react';
+import { socialLinks, navigationSections } from '../config/socialLinks';
 import './Sidebar.css';
 
 const Sidebar = ({ onMenuToggle }) => {
@@ -24,19 +25,43 @@ const Sidebar = ({ onMenuToggle }) => {
     }
   };
 
-  const menuItems = [
-    { icon: <Home className="w-5 h-5" />, label: 'Inicio', id: 'inicio' },
-    { icon: <User className="w-5 h-5" />, label: 'Sobre Mí', id: 'sobre-mi' },
-    { icon: <Code className="w-5 h-5" />, label: 'Servicios', id: 'servicios' },
-    { icon: <Briefcase className="w-5 h-5" />, label: 'Proyectos', id: 'proyectos' },
-    { icon: <Mail className="w-5 h-5" />, label: 'Contacto', id: 'contacto' }
-  ];
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      // Cerrar el menú en dispositivos móviles después de navegar
+      if (window.innerWidth <= 768) {
+        setIsMenuOpen(false);
+        if (onMenuToggle) {
+          onMenuToggle(false);
+        }
+      }
+    }
+  };
 
-  const socialLinks = [
-    { icon: <Github className="w-5 h-5" />, label: 'GitHub' },
-    { icon: <Linkedin className="w-5 h-5" />, label: 'LinkedIn' },
-    { icon: <Instagram className="w-5 h-5" />, label: 'Instagram' }
-  ];
+  const getIconComponent = (iconName) => {
+    const iconMap = {
+      github: <Github className="w-5 h-5" />,
+      linkedin: <Linkedin className="w-5 h-5" />,
+      instagram: <Instagram className="w-5 h-5" />
+    };
+    return iconMap[iconName] || <Github className="w-5 h-5" />;
+  };
+
+  const getMenuIcon = (id) => {
+    const iconMap = {
+      'inicio': <Home className="w-5 h-5" />,
+      'sobre-mi': <User className="w-5 h-5" />,
+      'servicios': <Code className="w-5 h-5" />,
+      'proyectos': <Briefcase className="w-5 h-5" />,
+      'contacto': <Mail className="w-5 h-5" />
+    };
+    return iconMap[id] || <Home className="w-5 h-5" />;
+  };
+
+  const handleSocialClick = (url) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
 
   return (
     <>
@@ -60,6 +85,7 @@ const Sidebar = ({ onMenuToggle }) => {
           className="menu-toggle"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
+          aria-label={isMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
         >
           {isMenuOpen ? '✕' : '☰'}
         </button>
@@ -78,14 +104,16 @@ const Sidebar = ({ onMenuToggle }) => {
         {/* Navigation Menu */}
         <nav className="nav-menu">
           <ul>
-            {menuItems.map((item, index) => (
+            {navigationSections.map((item) => (
               <li key={item.id}>
                 <button
                   className="nav-item"
+                  onClick={() => scrollToSection(item.id)}
                   onMouseEnter={() => setIsHovered(true)}
                   onMouseLeave={() => setIsHovered(false)}
+                  aria-label={`Ir a ${item.label}`}
                 >
-                  <span className="nav-icon">{item.icon}</span>
+                  <span className="nav-icon">{getMenuIcon(item.id)}</span>
                   {isMenuOpen && (
                     <span className="nav-label">{item.label}</span>
                   )}
@@ -102,10 +130,13 @@ const Sidebar = ({ onMenuToggle }) => {
               <button
                 key={index}
                 className="social-button"
+                onClick={() => handleSocialClick(social.url)}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
+                aria-label={`Visitar ${social.name}`}
+                title={social.name}
               >
-                {social.icon}
+                {getIconComponent(social.icon)}
               </button>
             ))}
           </div>

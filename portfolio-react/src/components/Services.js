@@ -1,4 +1,5 @@
 import React from 'react';
+import './Services.css';
 
 const Services = () => {
   const services = [
@@ -26,7 +27,7 @@ const Services = () => {
   ];
 
   return (
-    <div className="services-container">
+    <div className="services-container" id="servicios">
       <div className="services-title">Servicios</div>
       
       {services.map((service, index) => (

@@ -1,0 +1,151 @@
+/* SkillsSlider Component Styles */
+.skills-slider {
+    padding: 3rem 2rem;
+    margin: 2rem 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+}
+
+
+
+.skills-container {
+    display: flex;
+    gap: 2rem;
+    animation: slideSkills 30s linear infinite;
+    width: max-content;
+}
+
+.skill-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    min-width: 120px;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.skill-clickable {
+    cursor: pointer;
+}
+
+.skill-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(255, 0, 255, 0.3);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.skill-icon {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+    transition: all 0.3s ease;
+}
+
+.skill-svg {
+    width: 60px;
+    height: 60px;
+    color: #ffffff;
+    transition: transform 0.3s ease;
+}
+
+.skill-item:hover .skill-icon {
+    filter: brightness(1) invert(0);
+    transform: scale(1.1);
+}
+
+.skill-item:hover .skill-svg {
+    transform: scale(1.1);
+    color: var(--brand-color, #ffffff);
+}
+
+.skill-name {
+    font-size: 0.9rem;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Animación del slider */
+@keyframes slideSkills {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Forzar iconos en blanco (no invertir en hover) */
+.white-icon {
+    filter: brightness(0) invert(1) !important;
+}
+.skill-item:hover .white-icon {
+    filter: brightness(0) invert(1) !important;
+}
+
+/* Pausar animación en hover */
+.skills-slider:hover .skills-container {
+    animation-play-state: paused;
+}
+
+/* Responsive design para SkillsSlider */
+@media (max-width: 768px) {
+    .skills-slider {
+        padding: 2rem 1rem;
+    }
+    
+    .skills-title {
+        font-size: 2rem;
+        padding: 0.8rem 1.2rem;
+    }
+    
+    .skill-item {
+        min-width: 100px;
+        padding: 1rem;
+    }
+    
+    .skill-icon {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .skill-name {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .skills-slider {
+        padding: 1.5rem 0.5rem;
+    }
+    
+    .skills-title {
+        font-size: 1.8rem;
+        padding: 0.6rem 1rem;
+    }
+    
+    .skill-item {
+        min-width: 80px;
+        padding: 0.8rem;
+    }
+    
+    .skill-icon {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .skill-name {
+        font-size: 0.7rem;
+    }
+}

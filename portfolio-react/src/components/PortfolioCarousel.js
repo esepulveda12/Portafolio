@@ -1,62 +1,122 @@
 import React, { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight, Globe } from 'lucide-react';
+import './PortfolioCarousel.css';
 
 const PortfolioCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  
-  const images = [
-    { src: 'images/figma.png', alt: 'Imagen 1' },
-    { src: 'images/logos.png', alt: 'Imagen 2' },
-    { src: 'images/mobile.png', alt: 'Imagen 3' },
-    { src: 'images/web.png', alt: 'Imagen 4' }
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+
+  const portfolioImages = [
+    {
+      src: 'images/figma.png',
+      alt: 'Diseño Figma UI/UX',
+      title: 'Proyectos Figma',
+      category: 'UI/UX Design',
+    },
+    {
+      src: 'images/logos.png',
+      alt: 'Diseño de Logos',
+      title: 'Diseño de Logos',
+      category: 'Branding',
+    },
+    {
+      src: 'images/mobile.png',
+      alt: 'Aplicaciones Móviles',
+      title: 'Apps Móviles',
+      category: 'Mobile Development',
+    },
+    {
+      src: 'images/web.png',
+      alt: 'Desarrollo Web',
+      title: 'Sitios Web',
+      category: 'Web Development',
+    },
   ];
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % images.length);
+  // Agrupar en slides de 2 items (responsive: CSS ajusta a 1 en móviles)
+  const itemsPerSlide = 2;
+  const slides = Array.from({ length: Math.ceil(portfolioImages.length / itemsPerSlide) }, (_, idx) =>
+    portfolioImages.slice(idx * itemsPerSlide, idx * itemsPerSlide + itemsPerSlide)
+  );
+
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [isAutoPlaying, slides.length]);
+
+  const nextImage = () => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
   };
 
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + images.length) % images.length);
+  const prevImage = () => {
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
-  const goToSlide = (index) => {
+  const goToImage = (index) => {
     setCurrentSlide(index);
   };
 
-  useEffect(() => {
-    const interval = setInterval(nextSlide, 5000);
-    return () => clearInterval(interval);
-  }, [nextSlide]);
-
   return (
-    <div id="carouselExample" className="carousel emy">
-      <div className="carousel-inner" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
-        {images.map((image, index) => (
-          <div key={index} className={`carousel-item ${index === currentSlide ? 'active' : ''}`}>
-            <img src={image.src} className="emyimage" alt={image.alt} />
+    <div className="portfolio-section" id="proyectos">
+      <div className="portfolio-bg-bubble bubble-a" />
+      <div className="portfolio-bg-bubble bubble-b" />
+
+      <div className="portfolio-container">
+        <div className="portfolio-title">Portfolio Destacado</div>
+        <p className="portfolio-subtitle">Explora algunos de mis proyectos más recientes</p>
+
+        <div
+          className="carousel-frame"
+          onMouseEnter={() => setIsAutoPlaying(false)}
+          onMouseLeave={() => setIsAutoPlaying(true)}
+        >
+          <div className="carousel-track" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+            {slides.map((group, slideIdx) => (
+              <div key={slideIdx} className="carousel-slide">
+                {group.map((image, index) => (
+                  <div key={index} className="carousel-card">
+                    <div className="media-wrapper">
+                      <img src={image.src} alt={image.alt} className="carousel-image" />
+                      <div className="carousel-overlay" />
+                      <div className="carousel-info">
+                        <div>
+                          <div className="info-title">{image.title}</div>
+                          <div className="info-category">{image.category}</div>
+                        </div>
+                        <button className="globe-btn" aria-label="Ver proyecto">
+                          <Globe />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
           </div>
         ))}
       </div>
     
-      <button className="carousel-control-prev" type="button" onClick={prevSlide}>
-        <span className="carousel-control-prev-icon" aria-hidden="true">←</span>
-        <span className="visually-hidden"></span>
+          <button className="carousel-button prev" onClick={prevImage} aria-label="Anterior">
+            <ChevronLeft />
       </button>
-      <button className="carousel-control-next" type="button" onClick={nextSlide}>
-        <span className="carousel-control-next-icon" aria-hidden="true">→</span>
-        <span className="visually-hidden"></span>
+          <button className="carousel-button next" onClick={nextImage} aria-label="Siguiente">
+            <ChevronRight />
       </button>
+        </div>
     
-      <div className="carousel-indicators">
-        {images.map((_, index) => (
+        <div className="carousel-indicators modern">
+          {slides.map((_, index) => (
           <button 
             key={index}
-            type="button" 
-            onClick={() => goToSlide(index)} 
+              onClick={() => goToImage(index)}
             className={index === currentSlide ? 'active' : ''} 
-            aria-current={index === currentSlide ? 'true' : 'false'} 
-            aria-label={`Imagen ${index + 1}`}
-          ></button>
+              aria-label={`Ir a imagen ${index + 1}`}
+            />
         ))}
+        </div>
+
+        {/* counter removed per request */}
       </div>
     </div>
   );

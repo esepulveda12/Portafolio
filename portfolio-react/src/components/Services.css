@@ -1,0 +1,120 @@
+/* Services Component Styles */
+.services-container {
+    padding: 3rem 2rem;
+    margin: 2rem 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.services-title {
+    display: inline-block;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 0.75rem 1.5rem;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+    font-weight: 500;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    text-align: left;
+}
+
+.service-card {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.service-card:hover {
+    background: rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+.service-card.highlighted {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.left-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.service-number {
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.service-title {
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+}
+
+.service-description {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    max-width: 60%;
+    line-height: 1.5;
+    font-family: 'Montserrat', sans-serif;
+    text-align: left;
+}
+
+/* Responsive design para Services */
+@media (max-width: 768px) {
+    .services-container {
+        padding: 2rem 1rem;
+    }
+    
+    .services-title {
+        font-size: 1.3rem;
+        padding: 0.6rem 1.2rem;
+    }
+    
+    .service-card {
+        padding: 1.5rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .service-description {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .services-container {
+        padding: 1.5rem 0.5rem;
+    }
+    
+    .services-title {
+        font-size: 1.2rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    .service-card {
+        padding: 1rem;
+    }
+    
+    .service-title {
+        font-size: 1.2rem;
+    }
+    
+    .service-description {
+        font-size: 0.9rem;
+    }
+}

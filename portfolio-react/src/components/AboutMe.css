@@ -1,0 +1,141 @@
+/* AboutMe Component Styles */
+
+/* Container principal */
+.about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Secciones */
+.about-section {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 2rem;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(10px);
+    text-align: left;
+}
+
+/* Header de sección */
+.about-section-header {
+    display: inline-block;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 0.75rem 1.5rem;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+    font-weight: 500;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    text-align: left;
+}
+
+/* Título de sección */
+.about-section-title {
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 1.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    text-align: left;
+}
+
+/* Texto de historia */
+.about-history-text {
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    text-align: left;
+}
+
+/* Grid de experiencia */
+.about-experience-grid {
+    display: grid;
+    gap: 1.5rem;
+    text-align: left;
+}
+
+/* Item de experiencia */
+.about-experience-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.about-experience-item:last-child {
+    border-bottom: none;
+}
+
+/* Rol y fecha */
+.about-role {
+    font-weight: 500;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+}
+
+.about-date {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Responsive design para AboutMe */
+@media (max-width: 768px) {
+    .about-container {
+        padding: 1.5rem;
+    }
+    
+    .about-section {
+        padding: 1.5rem;
+    }
+    
+    .about-section-header {
+        font-size: 1.3rem;
+        padding: 0.6rem 1.2rem;
+    }
+    
+    .about-section-title {
+        font-size: 1.3rem;
+    }
+    
+    .about-experience-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-container {
+        padding: 1rem;
+    }
+    
+    .about-section {
+        padding: 1rem;
+        margin: 1rem;
+    }
+    
+    .about-section-header {
+        font-size: 1.2rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    .about-section-title {
+        font-size: 1.2rem;
+    }
+    
+    .about-history-text {
+        font-size: 0.9rem;
+    }
+    
+    .about-role {
+        font-size: 0.9rem;
+    }
+    
+    .about-date {
+        font-size: 0.8rem;
+    }
+}
