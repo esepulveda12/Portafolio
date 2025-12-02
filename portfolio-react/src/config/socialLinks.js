@@ -1,5 +1,4 @@
 // Configuración de enlaces sociales
-// Actualiza estas URLs con tus perfiles reales
 export const socialLinks = [
   {
     name: 'GitHub',

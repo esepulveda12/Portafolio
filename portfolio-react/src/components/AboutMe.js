@@ -5,35 +5,36 @@ const AboutMe = () => {
 
   const experiences = [
     {
-      role: "Software Developer",
-      date: "Presente"
+      role: "Analista de Calidad de Software (QA)",
+      date: "Jun. 2025 - Presente"
     },
     {
-      role: "Diseñadora UI/UX",
-      date: "Oct. 2021 - Dic. 2022"
+      role: "Desarrollo Web Freelance (Fiverr)",
+      date: "Ene. 2022 - Ago. 2025"
     },
     {
-      role: "Desarrollo Web y Aplicaciones IOS - Android",
-      date: "Ene. 2021 - Ago. 2021"
+      role: "Diseñadora UI/UX y Desarrollo Móvil",
+      date: "Sep. 2020 - Dic. 2021"
     }
   ];
 
   return (
     <div className="about-container">
       <div className="about-section">
-        <div className="about-section-header">Sobre Mí</div>
-        <div className="about-section-title">Mi Historia</div>
+        <div className="about-section-header">Mi Historia</div>
         <p className="about-history-text">
-          Soy Emily Sepulveda, actualmente estoy finalizando mi carrera en Ingeniería de Software en la Corporación Universitaria Iberoamericana, donde me especializo en creación de páginas web, diseño de sistemas y metodologías ágiles. Desde octubre de 2021, trabajo como desarrolladora freelance en Fiverr, colaborando en proyectos diversos que van desde aplicaciones personalizadas hasta soluciones tecnológicas innovadoras. Esta experiencia me ha permitido enfrentar desafíos técnicos variados y colaborar con clientes internacionales.
+          Ingeniera de Software especializada en la creación de productos digitales completos. Mi experiencia abarca el ciclo de desarrollo desde el diseño <strong>UX/UI</strong> hasta la implementación. Mi principal fortaleza es la habilidad de combinar el <strong>desarrollo web (React/Next.js)</strong> con el <strong>desarrollo móvil multiplataforma (Flutter/Dart)</strong>.
+          <br /><br />
+          Recientemente, mi enfoque se ha dirigido hacia la calidad y eficiencia, participando en proyectos de <strong>QA Automation</strong> utilizando <strong>Python</strong> para asegurar productos confiables en entornos ágiles. Previamente, como <strong>Freelancer en Fiverr</strong>, cultivé mi autonomía y gestión de proyectos al liderar el desarrollo web para clientes internacionales, lo que me ha preparado para adaptarme rápidamente a cualquier desafío técnico.
         </p>
       </div>
 
       <div className="about-section">
-        <div className="about-section-header">Mi Experiencia</div>
+        <div className="about-section-header">Mi Trayectoria</div>
         <div className="about-experience-grid">
           {experiences.map((exp, index) => (
             <div key={index} className="about-experience-item">
-              <div className="about-role">{exp.role}</div>
+              <div className="about-role"><strong>{exp.role}</strong></div>
               <div className="about-date">{exp.date}</div>
             </div>
           ))}

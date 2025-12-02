@@ -33,11 +33,26 @@ const PortfolioCarousel = () => {
     },
   ];
 
-  // Agrupar en slides de 2 items (responsive: CSS ajusta a 1 en móviles)
-  const itemsPerSlide = 2;
+  const [itemsPerSlide, setItemsPerSlide] = useState(window.innerWidth < 768 ? 1 : 2);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setItemsPerSlide(window.innerWidth < 768 ? 1 : 2);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Recalculate slides whenever itemsPerSlide changes
   const slides = Array.from({ length: Math.ceil(portfolioImages.length / itemsPerSlide) }, (_, idx) =>
     portfolioImages.slice(idx * itemsPerSlide, idx * itemsPerSlide + itemsPerSlide)
   );
+
+  // Reset to first slide when configuration changes to prevent empty views
+  useEffect(() => {
+    setCurrentSlide(0);
+  }, [itemsPerSlide]);
 
   useEffect(() => {
     if (!isAutoPlaying) return;
@@ -60,13 +75,13 @@ const PortfolioCarousel = () => {
   };
 
   return (
-    <div className="portfolio-section" id="proyectos">
+    <div className="portfolio-section" id="specializations">
       <div className="portfolio-bg-bubble bubble-a" />
       <div className="portfolio-bg-bubble bubble-b" />
 
       <div className="portfolio-container">
-        <div className="portfolio-title">Portfolio Destacado</div>
-        <p className="portfolio-subtitle">Explora algunos de mis proyectos más recientes</p>
+        <div className="portfolio-title">Áreas de especialización</div>
+        <p className="portfolio-subtitle">Diseño y desarrollo de software enfocados en la experiencia de usuario y la innovación.</p>
 
         <div
           className="carousel-frame"
@@ -93,27 +108,27 @@ const PortfolioCarousel = () => {
                     </div>
                   </div>
                 ))}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-    
+
           <button className="carousel-button prev" onClick={prevImage} aria-label="Anterior">
             <ChevronLeft />
-      </button>
+          </button>
           <button className="carousel-button next" onClick={nextImage} aria-label="Siguiente">
             <ChevronRight />
-      </button>
+          </button>
         </div>
-    
+
         <div className="carousel-indicators modern">
           {slides.map((_, index) => (
-          <button 
-            key={index}
+            <button
+              key={index}
               onClick={() => goToImage(index)}
-            className={index === currentSlide ? 'active' : ''} 
+              className={index === currentSlide ? 'active' : ''}
               aria-label={`Ir a imagen ${index + 1}`}
             />
-        ))}
+          ))}
         </div>
 
         {/* counter removed per request */}

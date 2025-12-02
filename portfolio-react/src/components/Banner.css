@@ -12,17 +12,15 @@
 
 .banner-text {
     white-space: nowrap;
-    animation: bannerScroll 25s linear infinite;
-}
-.banner-text {
+    animation: bannerScroll 70s linear infinite;
     font-weight: 600; 
     color: white; 
     text-align: center; 
     margin-right: 50px;
     top: -30px; 
-    left: 50%;
-    transform: translateX(-50%);
-    
+    left: 0;
+    display: inline-block;
+    position: relative;
 }
 
 .emily {
@@ -39,7 +37,18 @@
     font-weight: 900;
     letter-spacing: -1.5px;
     font-size: 66px; 
+    margin: 0.5rem;
     
+}
+
+/* Animación del banner */
+@keyframes bannerScroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
 }
 
 

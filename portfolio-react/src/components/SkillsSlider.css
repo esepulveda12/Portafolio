@@ -81,6 +81,7 @@
     0% {
         transform: translateX(0);
     }
+
     100% {
         transform: translateX(-50%);
     }
@@ -90,6 +91,7 @@
 .white-icon {
     filter: brightness(0) invert(1) !important;
 }
+
 .skill-item:hover .white-icon {
     filter: brightness(0) invert(1) !important;
 }
@@ -102,24 +104,26 @@
 /* Responsive design para SkillsSlider */
 @media (max-width: 768px) {
     .skills-slider {
-        padding: 2rem 1rem;
+        padding: 2rem 0;
+        margin: 1.5rem 0;
     }
-    
-    .skills-title {
-        font-size: 2rem;
-        padding: 0.8rem 1.2rem;
+
+    .skills-container {
+        gap: 1.5rem;
     }
-    
+
     .skill-item {
         min-width: 100px;
         padding: 1rem;
+        border-radius: 12px;
     }
-    
-    .skill-icon {
-        width: 50px;
-        height: 50px;
+
+    .skill-icon,
+    .skill-svg {
+        width: 45px;
+        height: 45px;
     }
-    
+
     .skill-name {
         font-size: 0.8rem;
     }
@@ -127,25 +131,45 @@
 
 @media (max-width: 480px) {
     .skills-slider {
-        padding: 1.5rem 0.5rem;
+        padding: 1.5rem 0;
+        margin: 1rem 0;
     }
-    
-    .skills-title {
-        font-size: 1.8rem;
-        padding: 0.6rem 1rem;
+
+    .skills-container {
+        gap: 1rem;
+        animation-duration: 25s;
+        /* Slightly faster on mobile */
     }
-    
+
     .skill-item {
-        min-width: 80px;
-        padding: 0.8rem;
+        min-width: 85px;
+        padding: 0.75rem;
+        border-radius: 10px;
+        gap: 0.5rem;
     }
-    
-    .skill-icon {
-        width: 40px;
-        height: 40px;
+
+    .skill-icon,
+    .skill-svg {
+        width: 36px;
+        height: 36px;
     }
-    
+
     .skill-name {
         font-size: 0.7rem;
+        letter-spacing: 0;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 360px) {
+    .skill-item {
+        min-width: 75px;
+        padding: 0.6rem;
+    }
+
+    .skill-icon,
+    .skill-svg {
+        width: 32px;
+        height: 32px;
     }
 }

@@ -4,19 +4,6 @@ import './Profile.css';
 import SkillsSlider from './SkillsSlider';
 
 const Hero = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
-
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
-  // Funciones relacionadas con sidebar removidas - ahora manejadas por Sidebar.js
 
   return (
     <div className="hero" style={{
@@ -25,19 +12,6 @@ const Hero = () => {
       padding: '2rem 0',
       position: 'relative'
     }}>
-      {/* Custom Cursor */}
-      <div 
-        className={`custom-cursor ${isHovered ? 'scale-150' : 'scale-100'}`}
-        style={{
-          left: mousePosition.x - 10,
-          top: mousePosition.y - 10,
-        }}
-      >
-        <div className="cursor-dot"></div>
-        <div className="cursor-ring"></div>
-      </div>
-
-      {/* Sidebar removido - ahora se maneja desde App.js */}
 
       {/* Banner superior */}
       <div className="banner" id="inicio">
@@ -91,7 +65,7 @@ const Hero = () => {
         </button>
         
         <div className="description">
-          Soy desarrolladora de software con más de 3 años de experiencia en UX/UI. Combino diseño y desarrollo para crear experiencias digitales que no solo se ven bien, sino que también funcionan de manera óptima. Con experiencia tanto en interfaces como en programación, me dedico a transformar ideas en productos completos, centrados en la funcionalidad y la experiencia del usuario.
+          <strong>Ingeniera de software con más de 3 años de experiencia</strong> en UX/UI. Combino diseño y desarrollo para crear experiencias digitales que no solo se ven bien, sino que también funcionan de manera óptima. Con experiencia tanto en interfaces como en programación, me dedico a transformar ideas en productos completos, centrados en la funcionalidad y la experiencia del usuario.
         </div>
         <a href="#more" className="ver-mas">Ver más →</a>
       </div>

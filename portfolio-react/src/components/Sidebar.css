@@ -1,50 +1,147 @@
-
 /* Sidebar */
 .sidebar {
   position: fixed;
   left: 0;
   top: 0;
   height: 100%;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(20px);
   border-right: 1px solid rgba(149, 4, 98, 0.463);
-  transition: all 0.5s ease;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 100;
   width: 80px;
+  overflow: hidden;
 }
 
 .sidebar.open {
   width: 320px;
 }
 
-/* Menu Toggle */
+/* Animated Background Gradient */
+.sidebar-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg,
+      rgba(168, 85, 247, 0.1) 0%,
+      rgba(236, 72, 153, 0.05) 50%,
+      rgba(59, 130, 246, 0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  animation: gradientShift 8s ease infinite;
+}
+
+.sidebar.open .sidebar-gradient {
+  opacity: 1;
+}
+
+@keyframes gradientShift {
+
+  0%,
+  100% {
+    background-position: 0% 0%;
+  }
+
+  50% {
+    background-position: 0% 100%;
+  }
+}
+
+/* Mobile Backdrop */
+.sidebar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 99;
+  animation: fadeIn 0.3s ease;
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .sidebar-backdrop {
+    display: block;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Menu Toggle - Hamburger Icon */
 .menu-toggle {
   position: absolute;
   top: 24px;
   left: 20px;
   padding: 8px;
-  border-radius: 8px;
-  background: linear-gradient(45deg, #ff00ff, #8000ff);
+  border-radius: 12px;
+  background: linear-gradient(135deg, #d946ef 0%, #a855f7 100%);
   color: white;
   border: none;
   cursor: pointer;
-  font-size: 24px;
-  transition: all 0.3s ease;
   width: 40px;
   height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(217, 70, 239, 0.4);
+  z-index: 101;
 }
 
 .menu-toggle:hover {
   transform: scale(1.1);
-  background: linear-gradient(45deg, #cc00cc, #6600cc);
+  box-shadow: 0 6px 20px rgba(217, 70, 239, 0.6);
+  background: linear-gradient(135deg, #ec4899 0%, #d946ef 100%);
+}
+
+/* Hamburger Icon Animation */
+.menu-icon {
+  width: 20px;
+  height: 16px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.menu-icon span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: white;
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.menu-icon.open span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.menu-icon.open span:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.menu-icon.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
 }
 
 /* Logo Section */
 .logo-section {
-  margin-top: 40px;
+  margin-top: 100px;
   padding: 0 8px;
 }
 
@@ -59,65 +156,75 @@
 .logo {
   width: 200px;
   height: 200px;
-  border-radius: 12px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   overflow: hidden;
   margin: 0;
+  position: relative;
+  animation: logoFadeIn 0.6s ease-out;
+}
+
+@keyframes logoFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .logo img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  border-radius: 12px;
+  border-radius: 16px;
+  position: relative;
+  z-index: 2;
 }
 
-.logo-icon {
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(45deg, #ff00ff, #8000ff);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+/* Logo Glow Effect */
+.logo-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(217, 70, 239, 0.3) 0%, transparent 70%);
+  border-radius: 16px;
+  animation: pulse 3s ease-in-out infinite;
+  z-index: 1;
 }
 
-.logo-icon span {
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
 }
-
-.logo-text {
-  overflow: hidden;
-}
-
-.logo-text h2 {
-  color: white;
-  font-weight: bold;
-  font-size: 20px;
-  margin: 0;
-  animation: slideIn 0.5s ease-out forwards;
-}
-
-.logo-text p {
-  color: #8000ff;
-  font-size: 14px;
-  margin: 0;
-  animation: slideIn 0.5s ease-out 0.1s forwards;
-  opacity: 0;
-}
-
-
 
 /* Navigation Menu */
 .nav-menu {
-  margin-top: 48px;
+  margin-top: 24px;
   padding: 0 16px;
+}
+
+.sidebar.open .nav-menu {
+  margin-left: 6rem;
+  padding: 0 16px 0 0;
 }
 
 .nav-menu ul {
@@ -135,21 +242,22 @@
   align-items: center;
   gap: 12px;
   padding: 12px;
-  border-radius: 8px;
+  border-radius: 12px;
   color: white;
   background: transparent;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-align: left;
+  position: relative;
+  overflow: visible;
 }
 
-/* Sidebar abierto: ítems desplazados a la derecha */
 .sidebar.open .nav-item {
-  left: 3rem;
+  margin-left: 0;
+  padding: 12px 12px 12px 12px;
 }
 
-/* Sidebar cerrado: ítems centrados solo con icono */
 .sidebar:not(.open) .nav-item {
   justify-content: center;
   margin-left: 0;
@@ -157,10 +265,64 @@
   width: 100%;
 }
 
+/* Active bar on the left - CENTERED */
+.nav-item::before {
+  content: '';
+  position: absolute;
+  left: -16px;
+  top: 50%;
+  transform: translateY(-50%) scaleY(0);
+  width: 4px;
+  height: 70%;
+  background: linear-gradient(180deg, #d946ef 0%, #a855f7 100%);
+  border-radius: 0 4px 4px 0;
+  transition: transform 0.3s ease;
+}
+
+.nav-item:hover::before,
+.nav-item.active::before {
+  transform: translateY(-50%) scaleY(1);
+}
+
 .nav-item:hover {
   background: rgba(255, 255, 255, 0.1);
   color: white;
-  
+  transform: translateX(4px);
+}
+
+/* Solo aplicar hover si NO está activo */
+.nav-item:not(.active):hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  transform: translateX(4px);
+}
+
+/* Remover hover cuando está activo */
+.nav-item.active:hover {
+  background: rgba(217, 70, 239, 0.15);
+  transform: translateX(0);
+}
+
+.nav-item.active {
+  background: rgba(217, 70, 239, 0.15);
+  color: white;
+}
+
+.nav-item.active .nav-icon {
+  color: #d946ef;
+  animation: iconBounce 0.5s ease;
+}
+
+@keyframes iconBounce {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
 }
 
 .nav-icon {
@@ -169,22 +331,94 @@
   align-items: center;
   justify-content: center;
   color: white;
+  transition: all 0.3s ease;
+}
+
+.nav-item:hover .nav-icon {
+  color: #d946ef;
+  transform: scale(1.1);
+}
+
+/* Solo aplicar hover al icono si NO está activo */
+.nav-item:not(.active):hover .nav-icon {
+  color: #d946ef;
+  transform: scale(1.1);
+}
+
+/* Mantener el color del icono activo */
+.nav-item.active .nav-icon {
+  color: #d946ef;
+  animation: iconBounce 0.5s ease;
 }
 
 .nav-icon svg {
   width: 20px;
   height: 20px;
-  color: white;
 }
 
 .nav-label {
-  font-weight: 700;
+  font-weight: 600;
   animation: slideIn 0.5s ease-out forwards;
   opacity: 0;
   color: white;
   text-align: left;
   font-family: 'Poppins', sans-serif;
   line-height: 1.2;
+  font-size: 15px;
+}
+
+/* Tooltip for closed sidebar */
+.nav-tooltip {
+  position: absolute;
+  left: 70px;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1000;
+  animation: tooltipFadeIn 0.2s ease;
+  border: 1px solid rgba(217, 70, 239, 0.5);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.nav-tooltip::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 6px solid rgba(0, 0, 0, 0.9);
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Divider */
+.sidebar-divider {
+  margin: 24px 16px;
+  height: 1px;
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(217, 70, 239, 0.3) 50%,
+      transparent 100%);
+  animation: slideIn 0.5s ease-out;
 }
 
 /* Social Links */
@@ -193,38 +427,78 @@
   bottom: 32px;
   left: 16px;
   right: 16px;
+  animation: slideIn 0.6s ease-out;
+}
+
+.social-title {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.social-buttons {
   display: flex;
   justify-content: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .social-button {
-  padding: 8px;
+  padding: 10px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.1);
   color: white;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   cursor: pointer;
-  font-size: 20px;
-  transition: all 0.3s ease;
   width: 40px;
   height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.social-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(217, 70, 239, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+.social-button:hover::before {
+  width: 100%;
+  height: 100%;
 }
 
 .social-button:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(217, 70, 239, 0.2);
   color: white;
-  transform: scale(1.1);
-  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-3px);
+  border-color: rgba(217, 70, 239, 0.6);
+  box-shadow: 0 4px 12px rgba(217, 70, 239, 0.4);
 }
 
 .social-button svg {
   width: 20px;
   height: 20px;
-  color: white;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s ease;
+}
+
+.social-button:hover svg {
+  transform: scale(1.1);
 }
 
 /* Main Content Wrapper */
@@ -241,32 +515,108 @@
 
 /* Animations */
 @keyframes slideIn {
-  from { opacity: 0; transform: translateX(-20px); }
-  to { opacity: 1; transform: translateX(0); }
-}
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
-
-@keyframes ping {
-  0% { transform: scale(1); opacity: 0.3; }
-  50% { transform: scale(1.1); opacity: 0.1; }
-  100% { transform: scale(1); opacity: 0.3; }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .sidebar.open {
-    width: 280px;
+  .sidebar {
+    width: 0;
+    background: transparent;
+    border-right: none;
+    backdrop-filter: none;
+    overflow: visible;
   }
-  
+
+  .sidebar.open {
+    width: 300px;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(20px);
+    border-right: 1px solid rgba(149, 4, 98, 0.463);
+    overflow-y: auto;
+    box-shadow: 5px 0 30px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Hide sidebar content when closed on mobile */
+  .sidebar:not(.open) .logo-section,
+  .sidebar:not(.open) .nav-menu,
+  .sidebar:not(.open) .sidebar-divider,
+  .sidebar:not(.open) .social-links {
+    display: none;
+  }
+
+  /* Ensure toggle button is visible and positioned correctly */
+  .menu-toggle {
+    left: 15px;
+    top: 15px;
+    width: 44px;
+    height: 44px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(149, 4, 98, 0.3);
+  }
+
+  /* On mobile, sidebar should be an overlay, NOT shift content */
   .main-content-wrapper.shifted {
-    margin-left: 280px;
-    width: calc(100% - 280px);
+    margin-left: 0;
+    width: 100%;
+    filter: blur(2px);
+  }
+
+  .sidebar.open .nav-menu {
+    margin-left: 0;
+    padding: 0 20px;
+    margin-top: 20px;
+  }
+
+  .logo-section {
+    margin-top: 80px;
+    padding: 0 20px;
+  }
+
+  .nav-item {
+    padding: 12px 16px;
+    margin-bottom: 4px;
+  }
+
+  .nav-label {
+    font-size: 15px;
+  }
+
+  .social-links {
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
   }
 }
 
-/* Hide default cursor for sidebar elements */
-/* Allow system cursor (we now use a trail instead of hiding it) */
+@media (max-width: 480px) {
+  .sidebar.open {
+    width: 90%;
+    max-width: 280px;
+  }
+
+  .menu-toggle {
+    width: 42px;
+    height: 42px;
+    padding: 8px;
+  }
+
+  .logo {
+    width: 120px;
+    height: 120px;
+  }
+
+  .social-button {
+    width: 42px;
+    height: 42px;
+  }
+}

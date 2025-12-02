@@ -5,16 +5,39 @@ import './Sidebar.css';
 
 const Sidebar = ({ onMenuToggle }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
+  const [activeSection, setActiveSection] = useState('inicio');
+  const [hoveredItem, setHoveredItem] = useState(null);
 
+  // Scroll spy - detect active section
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+    const handleScroll = () => {
+      const sections = navigationSections.map(item => item.id);
+      const scrollPosition = window.scrollY + 50; // Reduced offset for faster detection
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = document.getElementById(sections[i]);
+        if (section && section.offsetTop <= scrollPosition) {
+          setActiveSection(sections[i]);
+          break;
+        }
+      }
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    // Throttle scroll events for better performance
+    let ticking = false;
+    const throttledScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', throttledScroll, { passive: true });
+    handleScroll(); // Initial check
+    return () => window.removeEventListener('scroll', throttledScroll);
   }, []);
 
   const handleMenuToggle = () => {
@@ -26,9 +49,18 @@ const Sidebar = ({ onMenuToggle }) => {
   };
 
   const scrollToSection = (sectionId) => {
+    // Inmediatamente actualizar el estado activo
+    setActiveSection(sectionId);
+    
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      const offset = 50; // Reduced offset for consistency
+      const elementPosition = element.offsetTop - offset;
+      window.scrollTo({
+        top: elementPosition,
+        behavior: 'smooth'
+      });
+
       // Cerrar el menú en dispositivos móviles después de navegar
       if (window.innerWidth <= 768) {
         setIsMenuOpen(false);
@@ -65,29 +97,30 @@ const Sidebar = ({ onMenuToggle }) => {
 
   return (
     <>
-      {/* Custom Cursor */}
-      <div 
-        className={`custom-cursor ${isHovered ? 'scale-150' : 'scale-100'}`}
-        style={{
-          left: mousePosition.x - 10,
-          top: mousePosition.y - 10,
-        }}
-      >
-        <div className="cursor-dot"></div>
-        <div className="cursor-ring"></div>
-      </div>
+      {/* Mobile Backdrop */}
+      {isMenuOpen && (
+        <div
+          className="sidebar-backdrop"
+          onClick={handleMenuToggle}
+        />
+      )}
 
       {/* Sidebar Menu */}
       <div className={`sidebar ${isMenuOpen ? 'open' : ''}`}>
+        {/* Animated Background Gradient */}
+        <div className="sidebar-gradient"></div>
+
         {/* Menu Toggle Button */}
         <button
           onClick={handleMenuToggle}
           className="menu-toggle"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
           aria-label={isMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
         >
-          {isMenuOpen ? '✕' : '☰'}
+          <span className={`menu-icon ${isMenuOpen ? 'open' : ''}`}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
         </button>
 
         {/* Logo/Icon Section */}
@@ -96,6 +129,7 @@ const Sidebar = ({ onMenuToggle }) => {
             {isMenuOpen && (
               <div className="logo">
                 <img src="images/logo.png" alt="Emily Sepúlveda" />
+                <div className="logo-glow"></div>
               </div>
             )}
           </div>
@@ -107,15 +141,20 @@ const Sidebar = ({ onMenuToggle }) => {
             {navigationSections.map((item) => (
               <li key={item.id}>
                 <button
-                  className="nav-item"
+                  className={`nav-item ${activeSection === item.id ? 'active' : ''}`}
                   onClick={() => scrollToSection(item.id)}
-                  onMouseEnter={() => setIsHovered(true)}
-                  onMouseLeave={() => setIsHovered(false)}
+                  onMouseEnter={() => setHoveredItem(item.id)}
+                  onMouseLeave={() => setHoveredItem(null)}
                   aria-label={`Ir a ${item.label}`}
+                  data-tooltip={item.label}
                 >
                   <span className="nav-icon">{getMenuIcon(item.id)}</span>
                   {isMenuOpen && (
                     <span className="nav-label">{item.label}</span>
+                  )}
+                  {/* Tooltip for closed sidebar */}
+                  {!isMenuOpen && hoveredItem === item.id && (
+                    <span className="nav-tooltip">{item.label}</span>
                   )}
                 </button>
               </li>
@@ -123,22 +162,26 @@ const Sidebar = ({ onMenuToggle }) => {
           </ul>
         </nav>
 
+        {/* Divider */}
+        {isMenuOpen && <div className="sidebar-divider"></div>}
+
         {/* Social Links */}
         {isMenuOpen && (
           <div className="social-links">
-            {socialLinks.map((social, index) => (
-              <button
-                key={index}
-                className="social-button"
-                onClick={() => handleSocialClick(social.url)}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-                aria-label={`Visitar ${social.name}`}
-                title={social.name}
-              >
-                {getIconComponent(social.icon)}
-              </button>
-            ))}
+            <div className="social-title">Sígueme</div>
+            <div className="social-buttons">
+              {socialLinks.map((social, index) => (
+                <button
+                  key={index}
+                  className="social-button"
+                  onClick={() => handleSocialClick(social.url)}
+                  aria-label={`Visitar ${social.name}`}
+                  title={social.name}
+                >
+                  {getIconComponent(social.icon)}
+                </button>
+              ))}
+            </div>
           </div>
         )}
       </div>

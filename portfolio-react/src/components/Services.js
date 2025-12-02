@@ -5,7 +5,7 @@ const Services = () => {
   const services = [
     {
       number: "01.",
-      title: "Sitios Web HTML5 & CSS3",
+      title: "Sitios Web HTML5, CSS3 & React",
       description: "Diseño y desarrollo de sitios web modernos y funcionales, optimizados para una experiencia de usuario excepcional."
     },
     {
